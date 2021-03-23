@@ -1,7 +1,5 @@
 package org.zerock.persistence;
 
-import static org.junit.Assert.fail;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -11,23 +9,26 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class JDBCTests {
-	static {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
 
 	@Test
-	public void testConnection() {
-		try (Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "book_ex",
-				"book_ex")) {
+	public void testConnection() throws Exception {
+		Class cls = Class.forName("oracle.jdbc.driver.OracleDriver");
+
+		//연결,해제 여러번반복 테스트 = 에러
+		
+		/*
+		 * long start = System.currentTimeMillis(); 
+		 * for (int i = 0; i < 100; i++) {
+		 */
+			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "book_ex", "book_ex");
 			log.info(con);
-		} catch (Exception e) {
-			// TODO: handle exception
-			fail(e.getMessage());
-		}
+
+			con.close();
+
+			/*
+			 * long end = System.currentTimeMillis();
+			 * log.info("--------------------------------------------------------");
+			 * log.info(end - start); }
+			 */
 	}
 }

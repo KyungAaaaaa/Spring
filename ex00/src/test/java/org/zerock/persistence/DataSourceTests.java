@@ -25,13 +25,24 @@ public class DataSourceTests {
 
 	@Test
 	public void testConnection() {
-		try (Connection con = dataSource.getConnection()) {
-			log.info(con);
-		} catch (Exception e) {
 
-			// TODO: handle exception
-			fail(e.getMessage());
-		}
+		// Connection Pool을 사용하는 db 연결,해제 테스트
+
+		/*long start = System.currentTimeMillis();
+		for (int i = 0; i < 10000; i++) {*/
+
+			try (Connection con = dataSource.getConnection()) {
+				log.info(con);
+			} catch (Exception e) {
+
+				// TODO: handle exception
+				fail(e.getMessage());
+			}
+
+			/*
+			 * } long end=System.currentTimeMillis();
+			 * log.info("-------------------------------------------"); log.info(end-start);
+			 */
 	}
 
 }
