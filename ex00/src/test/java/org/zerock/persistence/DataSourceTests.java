@@ -6,6 +6,8 @@ import java.sql.Connection;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,26 +25,39 @@ public class DataSourceTests {
 	@Setter(onMethod_ = { @Autowired })
 	private DataSource dataSource;
 
+	@Setter(onMethod_ = { @Autowired })
+	private SqlSessionFactory sqlSeFactory;
+
 	@Test
 	public void testConnection() {
 
-		// Connection Pool을 사용하는 db 연결,해제 테스트
+// Connection Pool을 사용하는 db 연결,해제 테스트
 
-		/*long start = System.currentTimeMillis();
-		for (int i = 0; i < 10000; i++) {*/
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < 10000; i++) {
 
 			try (Connection con = dataSource.getConnection()) {
 				log.info(con);
 			} catch (Exception e) {
 
-				// TODO: handle exception
-				fail(e.getMessage());
-			}
+// TODO: handle exception fail(e.getMessage()); }
 
-			/*
-			 * } long end=System.currentTimeMillis();
-			 * log.info("-------------------------------------------"); log.info(end-start);
-			 */
+			}
+		}
+		long end = System.currentTimeMillis();
+		log.info("-------------------------------------------");
+		log.info(end - start);
+
 	}
 
+	@Test
+	public void testMyBatis() {
+		try (SqlSession session = sqlSeFactory.openSession(); Connection connection = session.getConnection();) {
+			log.info(session);
+			log.info(connection);
+		} catch (Exception e) {
+			// TODO: handle exception
+			fail(e.getMessage());
+		}
+	}
 }
