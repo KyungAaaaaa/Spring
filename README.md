@@ -1,4 +1,4 @@
-# hello-spring
+# Spring
 
 ### hello-spring
 :<인프런> 스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술
@@ -7,4 +7,5 @@ https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%
 
 
 ### ex00
+### ex01
 :코드로 배우는 스프링 웹프로젝트 
