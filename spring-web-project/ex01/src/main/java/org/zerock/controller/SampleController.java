@@ -1,5 +1,8 @@
 package org.zerock.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +40,24 @@ public class SampleController {
 		log.info("age = "+age);
 		return "ex03";
 	}
+	
+	@GetMapping("/ex04")
+	public String ex04List(@RequestParam("ids")ArrayList<String> ids) {
+		//sample/ex04?ids=111&ids=222&ids=333&ids=444
+		log.info("ids : "+ids);
+		return "ex04List";
+	}
 
+
+	@GetMapping("/ex05")
+	public String ex05Array(@RequestParam("ids") String[] ids) {
+		//sample/ex04?ids=111&ids=222&ids=333&ids=444
+		log.info("array ids : "+Arrays.toString(ids));
+		return "ex05Array";
+	}
+	
 	// http://localhost:8080/sample/ex02?list%5B0%5D.name=KKA&list%5B0%5D.age=25&list%5B1%5D.name=KWE&list%5B1%5D.age=4
 	// http://localhost:8080/sample/ex02?list%[0].name=KKA&list[0].age=25&list[1].name=KWE&list[1].age=4
-	@RequestMapping("/ex02")
-	public void ex02(SampleDTOList dto) {
-		log.info(dto);
-	}
+
 
 }
