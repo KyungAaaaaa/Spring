@@ -1,7 +1,9 @@
 package org.zerock.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.zerock.domain.SampleDTO;
 import org.zerock.domain.SampleDTOList;
 
@@ -19,14 +21,28 @@ public class SampleController {
 
 	@RequestMapping("/ex01")
 	public void ex01(SampleDTO dto) {
-		log.info("name = "+dto.getName() +" / age = "+dto.getAge());
+		log.info("name = " + dto.getName() + " / age = " + dto.getAge());
+	}
+
+	@GetMapping("/ex02")
+	public String ex02(SampleDTO dto) {
+		log.info("" + dto);
+		return "ex02";
 	}
 	
-	//http://localhost:8080/sample/ex02?list%5B0%5D.name=KKA&list%5B0%5D.age=25&list%5B1%5D.name=KWE&list%5B1%5D.age=4
-	//http://localhost:8080/sample/ex02?list%[0].name=KKA&list[0].age=25&list[1].name=KWE&list[1].age=4
+	@GetMapping("/ex03")
+	public String ex03(@RequestParam("dlfma") String name,@RequestParam("skdl") int age) {
+		//@RequestParam  : 파라미터로 사용된 변수의 이름과 전달되는 파라미터의 이름이 다른경우에 유용하게 사용
+		log.info("name = "+name);
+		log.info("age = "+age);
+		return "ex03";
+	}
+
+	// http://localhost:8080/sample/ex02?list%5B0%5D.name=KKA&list%5B0%5D.age=25&list%5B1%5D.name=KWE&list%5B1%5D.age=4
+	// http://localhost:8080/sample/ex02?list%[0].name=KKA&list[0].age=25&list[1].name=KWE&list[1].age=4
 	@RequestMapping("/ex02")
 	public void ex02(SampleDTOList dto) {
 		log.info(dto);
 	}
-	
+
 }
