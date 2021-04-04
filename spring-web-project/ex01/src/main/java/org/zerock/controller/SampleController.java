@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.zerock.domain.SampleDTO;
@@ -76,5 +77,15 @@ public class SampleController {
 	public String ex06(TodoDTO todo) {
 		log.info("todo : " + todo);
 		return "ex03";
+	}
+	
+	@GetMapping("/ex07")
+	public String ex07(SampleDTO dto,@ModelAttribute("page") int page) {
+		//파라미터로 설정한 SampleDTO 타입은 빈의 규칙에 맞기떄문에 다종으로 화면까지 전달(전달될때는 클래스명 앞글자 소문자)
+		//page의경우 기본타입은 화면까지 전달되지않는다.
+		log.info("dto : "+dto);
+		log.info("page : "+page);
+		
+		return "/sample/ex07";
 	}
 }
