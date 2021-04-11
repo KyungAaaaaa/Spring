@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.SampleDTO;
 import org.zerock.domain.SampleDTOList;
 import org.zerock.domain.TodoDTO;
@@ -22,7 +26,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequestMapping("/sample/*")
 public class SampleController {
-	
+
 //	@InitBinder
 //	public void initBinder(WebDataBinder binder) {
 //		//문자열로 전달될 날짜파라미터를 Date타입으로 바인딩(자동으로 호출)
@@ -31,7 +35,6 @@ public class SampleController {
 //
 //	}
 
-	
 	@RequestMapping("")
 	public void basic() {
 		log.info("basic.....");
@@ -72,20 +75,51 @@ public class SampleController {
 		return "ex05Array";
 	}
 
-
 	@GetMapping("/ex06")
 	public String ex06(TodoDTO todo) {
 		log.info("todo : " + todo);
 		return "ex03";
 	}
-	
+
 	@GetMapping("/ex07")
-	public String ex07(SampleDTO dto,@ModelAttribute("page") int page) {
-		//파라미터로 설정한 SampleDTO 타입은 빈의 규칙에 맞기떄문에 다종으로 화면까지 전달(전달될때는 클래스명 앞글자 소문자)
-		//page의경우 기본타입은 화면까지 전달되지않는다.
-		log.info("dto : "+dto);
-		log.info("page : "+page);
-		
+	public String ex07(SampleDTO dto, @ModelAttribute("page") int page) {
+		// 파라미터로 설정한 SampleDTO 타입은 빈의 규칙에 맞기떄문에 자동으로 화면까지 전달(전달될때는 클래스명 앞글자 소문자)
+		// page의경우 기본타입은 화면까지 전달되지않는다.
+		log.info("dto : " + dto);
+		log.info("page : " + page);
+
 		return "/sample/ex07";
 	}
+
+	@RequestMapping("/ex08")
+	public void ex08() {
+		// return 타입을 void로 할경우 url의 경로를 그대로 jsp파일의 이름으로 연결
+		log.info("/ex08..............");
+	}
+
+	@RequestMapping("/ex09")
+	public @ResponseBody SampleDTO ex09() {
+		// return 타입이 객체일경우 JSON데이터를 만들어내는 용도로 사용
+		log.info("/ex08..............");
+		SampleDTO dto = new SampleDTO();
+		dto.setAge(5);
+		dto.setName("홍길동");
+
+		return dto;
+	}
+
+	@RequestMapping("/ex10")
+	public ResponseEntity<String> ex10() {
+		// HTTP프로토콜의 헤더를 다루는 경우
+		log.info("/ex10..............");
+
+		// {"name": "홍길동"}
+		String msg = "{\"name\" : \"홍길동\"}";
+
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-Type", "application/json;charset=UTF-8");
+
+		return new ResponseEntity<String>(msg, header, HttpStatus.OK);
+	}
+
 }
