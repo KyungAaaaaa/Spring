@@ -28,4 +28,17 @@ public class ConfigurationSingletonTest {
 		assertThat(memberRepository).isSameAs(memberService.getMemberRepository());
 		assertThat(memberRepository).isSameAs(orderService.getMemberRepository());
 	}
+
+	@Test
+	void configurationDeep() {
+		ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
+		// AnnotationConfigApplicationContext로 AppConfig를 넘기면 AppConfig도 bean에 등록된다
+		AppConfig bean = ac.getBean(AppConfig.class);
+
+		System.out.println("bean = " + bean.getClass());
+		//bean = class hello.core.AppConfig$$EnhancerBySpringCGLIB$$81cf50a8
+		//@Configuration을 붙이면 임의의 다른 클래스가 싱글톤이 보장되도록 해준다.
+		//이미 등록이 된 빈은 찾아서 반환해주고, 없다면 등록한다.
+	}
 }
