@@ -1,8 +1,11 @@
 package hello.core;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+
+import hello.core.member.MemoryMemberRepository;
 
 @Configuration
 @ComponentScan(
@@ -18,4 +21,11 @@ import org.springframework.context.annotation.FilterType;
 		)
 public class AutoAppConfig {
 
+	//수동으로 빈 이름을 같게 생성하면 수동빈이 자동빈을 오버라이딩한다.
+	//스프링 부트를 통해 실행하면 오류발생.
+	//의도해서 수동빈을 오버라이딩하는 경우보다 실수인 경우가 더 많기때문에..최신 부트에서는 해당 중복생성을 오류로 지정해놈
+	@Bean(name = "memoryMemberRepository")
+	public MemoryMemberRepository memberRepository() {
+		return new MemoryMemberRepository();
+	}
 }

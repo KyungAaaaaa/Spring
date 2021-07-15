@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component	//memoryMemberRepository
 public class MemoryMemberRepository implements MemberRepository{
 	
 	private static Map<Long,Member> store=new HashMap<>();
